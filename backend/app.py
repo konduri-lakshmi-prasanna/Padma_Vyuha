@@ -342,43 +342,19 @@ def register():
 # ================================================================
 #  LOGIN
 # ================================================================
-@app.route("/api/login", methods=["POST"])
-def login():
-    data = request.get_json()
+// In your frontend code (e.g., login function)
+const API_BASE_URL = "https://refreshing-joy-production-dbca.up.railway.app";
 
-    if not data:
-        return jsonify({"error": "No data received"}), 400
-
-    email    = data.get("email")
-    password = data.get("password")
-
-    if not email or not password:
-        return jsonify({"error": "Missing email or password"}), 400
-
-    user = mongo.db.users.find_one({"email": email})
-
-    if not user:
-        return jsonify({"error": "User not found"}), 400
-
-    if not bcrypt.checkpw(password.encode("utf-8"), user["password"]):
-        return jsonify({"error": "Wrong password"}), 400
-
-    return jsonify({
-        "message":        "Login successful",
-        "id":             user.get("userId", str(user["_id"])),
-        "name":           user.get("name", ""),
-        "email":          user.get("email", ""),
-        "userType":       user.get("userType", "Public"),
-        "vehicleNumber":  user.get("vehicleNumber", ""),
-        "vehicleModel":   user.get("vehicleModel", ""),
-        "bloodGroup":     user.get("bloodGroup", ""),
-        "conditions":     user.get("conditions", ""),
-        "allergies":      user.get("allergies", ""),
-        "emergencyPhone": user.get("emergencyPhone", ""),
-        "contactNumber":  user.get("contactNumber", ""),
-        "iotDeviceId":    user.get("iotDeviceId", "")
-    }), 200
-
+const handleLogin = async (credentials) => {
+  const response = await fetch(`${API_BASE_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+    // IMPORTANT: Include this if you use cookies/sessions
+    credentials: "include", 
+  });
+  return response.json();
+};
 
 # ================================================================
 #  GET USER BY ID
