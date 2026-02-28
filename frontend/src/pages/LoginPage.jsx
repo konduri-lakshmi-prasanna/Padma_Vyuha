@@ -24,7 +24,7 @@ const LoginPage = () => {
 
     try {
 
-      const res = await fetch("https://iveras-production.up.railway.app/api/login", {
+      const res = await fetch("https://backendiveras-production.up.railway.app/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
